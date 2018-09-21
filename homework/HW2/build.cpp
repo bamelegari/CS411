@@ -3,6 +3,8 @@
 // See build.hpp for description.
 #include "build.hpp"
 
+//flaw: I totally forgot to account for w and e.
+
 // checks if two bridges cross or have a common point
 bool builder::pairIsBad(const Bridge & a, const Bridge & b)
 {
@@ -44,21 +46,20 @@ bool builder::badBridges(vector<Bridge> bridges)
 	return badBridges(bridges);
 }
 
-void builder::checkNewToll()
+int builder::newToll(int maxToll)
 {
-	// check if toll is greater than the greatest so far. If so, 
-	// make it the greatest so far.
 	int tempToll = 0;
 	for(auto i : workingSet)
 	{
 		tempToll += i[2];
 	}
 	if(tempToll > maxToll)
-		maxToll = tempToll;
+		return tempToll;
+	return maxToll;
 }
 
 // Recursive backtracking
-int builder::build()
+int builder::build(int maxToll)
 {	
 	// If we're out of places to go, base case.
 	if(workingSet.size() == bridges.size())
@@ -73,8 +74,8 @@ int builder::build()
 
 		if(!badBridges(workingSet))
 		{
-			checkNewToll();
-			build();
+			maxToll = newToll(maxToll);
+			return build(maxToll);
 		}
 
 		workingSet.pop_back();
@@ -90,5 +91,5 @@ int builder::build()
 int build(int w, int e, const vector<Bridge> & bridges)
 {
 	builder b(w, e, bridges);
-	return b.build();
+	return b.build(0);
 }

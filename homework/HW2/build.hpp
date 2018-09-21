@@ -16,20 +16,19 @@ using Bridge = vector<int>;
 struct builder
 {
 	builder(int w, int e, const vector<Bridge> & bridges):
-		w(w), e(e), bridges(bridges), maxToll(0) {
+		w(w), e(e), bridges(bridges) {
 
 			//start working set with first bridge
 			//workingSet.push_back(bridges[0]);
 		}
 
 	// recursive solution finder. called from client code
-	int build();
+	int build(int maxToll);
 
 	int w;
 	int e;
 	const vector<Bridge> & bridges;
 	vector<Bridge> workingSet;
-	int maxToll;
 
 private:
 	// checks if two bridges cross or have a common point
@@ -39,7 +38,7 @@ private:
 	// both of which violate our constraints.
 	bool badBridges(vector<Bridge> bridges);
 
-	void checkNewToll();
+	int newToll(int maxToll);
 
 };
 
