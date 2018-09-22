@@ -2,8 +2,7 @@
 // Bryce Melegari, UAF CS411 Asssignment 2
 // See build.hpp for description.
 #include "build.hpp"
-
-//flaw: I totally forgot to account for w and e.
+#include <iostream>
 
 // checks if two bridges cross or have a common point
 bool builder::pairIsBad(const Bridge & a, const Bridge & b)
@@ -19,77 +18,66 @@ bool builder::pairIsBad(const Bridge & a, const Bridge & b)
 	return false;
 }
 
-
-// checks if given set of bridges has any pairs that cross or share a city,
-// both of which violate our constraints.
-bool builder::badBridges(vector<Bridge> bridges)
+bool builder::checkNewBridge(vector<Bridge> & bs, const Bridge & b)
 {
-	// base case
-	if (bridges.size() == 1)
+	for(Bridge i : bs)
 	{
-		return false;
-	}
-
-	// Check all bridge pairs (a, b) where a = the last bridge in the vector.
-	// If those pairs cross or have any common start/end points, stop.
-	int last = bridges.size() - 1;
-	for(int i = last - 1; i >= 0; --i)
-	{
-		if(pairIsBad(bridges[last], bridges[i]))
+		if(pairIsBad(i, b))
 		{
-			return true;
-		} 
+			return false;
+		}
 	}
-
-	// if no pairs are bad, do same without the last bridge
-	bridges.pop_back();
-	return badBridges(bridges);
+	return true;
 }
 
-int builder::newToll(int maxToll)
-{
-	int tempToll = 0;
-	for(auto i : workingSet)
-	{
-		tempToll += i[2];
-	}
-	if(tempToll > maxToll)
-		return tempToll;
-	return maxToll;
-}
 
 // Recursive backtracking
-int builder::build(int maxToll)
+int builder::build(vector<Bridge> & workingSet, int index)
 {	
-	// If we're out of places to go, base case.
-	if(workingSet.size() == bridges.size())
-	{
-		return 0;
-	}
 
-	int startPoint = bridges.size() - 1 - workingSet.size();
-	for(int i = startPoint; i >= 0; --i)
+	if(index < bridges.size())
 	{
-		workingSet.push_back(bridges[i]);
+		// check if current solution is feasible by checking new bridge
+		// with all existing bridges.
 
-		if(!badBridges(workingSet))
+		bool feasible = checkNewBridge(workingSet, bridges[index]);
+
+		if(feasible)
 		{
-			maxToll = newToll(maxToll);
-			return build(maxToll);
-		}
 
-		workingSet.pop_back();
+			workingSet.push_back(bridges[index]);
+			int tollWithCurrentBridge = build(workingSet, index + 1);
+			workingSet.pop_back();
+			int tollWithoutCurrentBridge = build(workingSet, index + 1);
+			
+			// return whichever is greater
+			return (tollWithCurrentBridge > tollWithoutCurrentBridge ? 
+						tollWithCurrentBridge:tollWithoutCurrentBridge);
+		}
+		else
+		{
+			return build(workingSet, index + 1);
+		}
 	}
 
-	return maxToll;
-	
+	// base case -- we've reached the bottom of a branch.
+	int temp = 0;
+	for(Bridge i : workingSet)
+	{
+		temp += i[2];
+	}
+
+	return temp;
 }
 
 // w = # of cities on West bank, e = # of cities on East bank
 // given these and a vector of bridges with tolls, and return
 // the maximum toll possible without overlapping bridges.
+// w and e are actually superfluous.
 int build(int w, int e, const vector<Bridge> & bridges)
 {
 	builder b(w, e, bridges);
-	return b.build(0);
+
+	vector<Bridge> empty;
+	return b.build(empty, 0);
 }

@@ -23,12 +23,11 @@ struct builder
 		}
 
 	// recursive solution finder. called from client code
-	int build(int maxToll);
+	int build(vector<Bridge> & workingSet, int index);
 
 	int w;
 	int e;
 	const vector<Bridge> & bridges;
-	vector<Bridge> workingSet;
 
 private:
 	// checks if two bridges cross or have a common point
@@ -36,7 +35,7 @@ private:
 
 	// checks if given set of bridges has any pairs that cross or share a city,
 	// both of which violate our constraints.
-	bool badBridges(vector<Bridge> bridges);
+	bool checkNewBridge(vector<Bridge> & bs, const Bridge & b);
 
 	int newToll(int maxToll);
 
