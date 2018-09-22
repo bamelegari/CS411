@@ -1,6 +1,6 @@
 // build.hpp
 // Bryce Melegari, UAF CS411 Asssignment 2
-// Implements an exhaustive search solution to the specifications described
+// Implements an exhaustive recursive backtracking solution to the problem described in
 // in HW2.pdf.
 
 #pragma once
@@ -15,18 +15,12 @@ using Bridge = vector<int>;
 // as the algorithm and its helper functions
 struct builder
 {
-	builder(int w, int e, const vector<Bridge> & bridges):
-		w(w), e(e), bridges(bridges) {
-
-			//start working set with first bridge
-			//workingSet.push_back(bridges[0]);
-		}
+	builder(const vector<Bridge> & bridges):
+		bridges(bridges) {}
 
 	// recursive solution finder. called from client code
 	int build(vector<Bridge> & workingSet, int index);
 
-	int w;
-	int e;
 	const vector<Bridge> & bridges;
 
 private:

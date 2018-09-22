@@ -26,6 +26,8 @@
 #include <vector>       // for std::vector
 #include <cmath>        // for std::sqrt
 
+#include "winstopwatch.h"
+
 // ************************************************************************
 // Testing Package:
 //     Class Tester - For Tracking Tests
@@ -1015,7 +1017,13 @@ void test_build(Tester & t)
 int main()
 {
     Tester t;
+    WinStopWatch timer;
+
+    timer.start();
     test_build(t);
+    timer.stop();
+
+    std::cout << timer.time() << std::endl;
 
     std::cout << std::endl;
     if (t.allPassed())

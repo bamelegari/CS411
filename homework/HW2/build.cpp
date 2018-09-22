@@ -2,7 +2,6 @@
 // Bryce Melegari, UAF CS411 Asssignment 2
 // See build.hpp for description.
 #include "build.hpp"
-#include <iostream>
 
 // checks if two bridges cross or have a common point
 bool builder::pairIsBad(const Bridge & a, const Bridge & b)
@@ -31,7 +30,6 @@ bool builder::checkNewBridge(vector<Bridge> & bs, const Bridge & b)
 }
 
 
-// Recursive backtracking
 int builder::build(vector<Bridge> & workingSet, int index)
 {	
 
@@ -39,12 +37,11 @@ int builder::build(vector<Bridge> & workingSet, int index)
 	{
 		// check if current solution is feasible by checking new bridge
 		// with all existing bridges.
-
 		bool feasible = checkNewBridge(workingSet, bridges[index]);
 
 		if(feasible)
 		{
-
+			// with and without current bridge are two different branches of the tree here.
 			workingSet.push_back(bridges[index]);
 			int tollWithCurrentBridge = build(workingSet, index + 1);
 			workingSet.pop_back();
@@ -56,6 +53,7 @@ int builder::build(vector<Bridge> & workingSet, int index)
 		}
 		else
 		{
+			// if not feasible, move on to next bridge, nothing to see here.
 			return build(workingSet, index + 1);
 		}
 	}
@@ -70,13 +68,9 @@ int builder::build(vector<Bridge> & workingSet, int index)
 	return temp;
 }
 
-// w = # of cities on West bank, e = # of cities on East bank
-// given these and a vector of bridges with tolls, and return
-// the maximum toll possible without overlapping bridges.
-// w and e are actually superfluous.
 int build(int w, int e, const vector<Bridge> & bridges)
 {
-	builder b(w, e, bridges);
+	builder b(bridges);
 
 	vector<Bridge> empty;
 	return b.build(empty, 0);
