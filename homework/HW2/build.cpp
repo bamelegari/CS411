@@ -1,9 +1,10 @@
 // build.cpp
 // Bryce Melegari, UAF CS411 Asssignment 2
-// See build.hpp for description.
+// last modified: 9/21/2018
+// See build.hpp for description and detailed function comments.
 #include "build.hpp"
 
-// checks if two bridges cross or have a common point
+
 bool builder::pairIsBad(const Bridge & a, const Bridge & b)
 {
 	// check for bridges with common cities
@@ -17,7 +18,7 @@ bool builder::pairIsBad(const Bridge & a, const Bridge & b)
 	return false;
 }
 
-bool builder::checkNewBridge(vector<Bridge> & bs, const Bridge & b)
+bool builder::checkNewBridge(const vector<Bridge> & bs, const Bridge & b)
 {
 	for(Bridge i : bs)
 	{
@@ -35,8 +36,7 @@ int builder::build(vector<Bridge> & workingSet, int index)
 
 	if(index < bridges.size())
 	{
-		// check if current solution is feasible by checking new bridge
-		// with all existing bridges.
+		// check if current solution is feasible
 		bool feasible = checkNewBridge(workingSet, bridges[index]);
 
 		if(feasible)
@@ -47,18 +47,19 @@ int builder::build(vector<Bridge> & workingSet, int index)
 			workingSet.pop_back();
 			int tollWithoutCurrentBridge = build(workingSet, index + 1);
 			
-			// return whichever is greater
+			// return whichever is greater once the tree below this point is constructed.
 			return (tollWithCurrentBridge > tollWithoutCurrentBridge ? 
 						tollWithCurrentBridge:tollWithoutCurrentBridge);
 		}
 		else
 		{
-			// if not feasible, move on to next bridge, nothing to see here.
+			// if not feasible, move on to next possible bridge, nothing to see here.
 			return build(workingSet, index + 1);
 		}
 	}
 
-	// base case -- we've reached the bottom of a branch.
+	// base case -- we've reached the bottom of a branch. So return total toll for
+	// this configuration.
 	int temp = 0;
 	for(Bridge i : workingSet)
 	{
@@ -70,8 +71,10 @@ int builder::build(vector<Bridge> & workingSet, int index)
 
 int build(int w, int e, const vector<Bridge> & bridges)
 {
-	builder b(bridges);
+	// again, w and e are superfluous, not used.
 
+	builder b(bridges);
 	vector<Bridge> empty;
+
 	return b.build(empty, 0);
 }
