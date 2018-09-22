@@ -58,8 +58,8 @@ int builder::build(vector<Bridge> & workingSet, int index)
 		}
 	}
 
-	// base case -- we've reached the bottom of a branch. So return total toll for
-	// this configuration.
+	// base case -- we've reached the bottom of a branch and tried all bridges, 
+	//so return total toll for this configuration.
 	int temp = 0;
 	for(Bridge i : workingSet)
 	{
