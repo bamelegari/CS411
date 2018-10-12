@@ -2,12 +2,11 @@
 //Bryce Melegari
 
 // UAF Fall 2018 CS411 Assignment 3, part A.
+
 #pragma once
-//#include <numeric>
 #include <algorithm>
 #include <vector>
 #include <iostream>
-using namespace std;
 
 // vector values:
 // A = GCS of sequence [0]
@@ -22,7 +21,6 @@ std::vector<int> contigSumHelper(RAIter first, RAIter last)
 	//base case
 	if(last - first == 1)
 	{
-		//cout << "base" << endl;
 		int currentVal = *first;
 		D = currentVal;
 		A = B = C = std::max(currentVal, 0);
@@ -58,8 +56,6 @@ std::vector<int> contigSumHelper(RAIter first, RAIter last)
 
 		D = firstHalf[3] + secondHalf[3];
 	}
-	// I'm leaving this here because when uncommented it causes REALLY interesting behavior....
-	// cout << A << endl; 
 	return {A, B, C, D};
 }
 
