@@ -1,7 +1,12 @@
 //contigsum.hpp
-//Bryce Melegari
+// Bryce Melegari
+// last modified 10/11/2018
 
 // UAF Fall 2018 CS411 Assignment 3, part A.
+// See HW3.pdf for problem statement. Computes the 
+// Greatest contiguous sum of a list given first and
+// last iterators to the list.
+
 
 #pragma once
 #include <algorithm>
@@ -58,8 +63,6 @@ std::vector<int> contigSumHelper(RAIter first, RAIter last)
 	}
 	return {A, B, C, D};
 }
-
-
 
 template<typename RAIter>
 int contigSum(RAIter first, RAIter last)
