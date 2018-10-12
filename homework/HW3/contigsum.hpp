@@ -20,7 +20,7 @@ std::vector<int> contigSumHelper(RAIter first, RAIter last)
 	int A, B, C, D;
 
 	//base case
-	if(last - first <= 1)
+	if(last - first == 1)
 	{
 		//cout << "base" << endl;
 		int currentVal = *first;
@@ -58,7 +58,8 @@ std::vector<int> contigSumHelper(RAIter first, RAIter last)
 
 		D = firstHalf[3] + secondHalf[3];
 	}
-	cout << A << endl;
+	// I'm leaving this here because when uncommented it causes REALLY interesting behavior....
+	// cout << A << endl; 
 	return {A, B, C, D};
 }
 
@@ -69,7 +70,7 @@ int contigSum(RAIter first, RAIter last)
 {
 	if(last - first == 1)
 		return std::max(*first, 0);
-	if(last == first)
+	else if(last == first)
 		return 0;
 
 	return contigSumHelper(first, last)[0];
