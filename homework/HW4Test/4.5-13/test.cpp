@@ -8,10 +8,12 @@ using std::vector;
 #include <iostream>
 using std::cout;
 using std::endl;
+using std::cin;
 #include <algorithm>
 using std::sort;
 #include <time.h>
 #include <stdlib.h>
+
 
 using nMat = vector<vector<int>>;
 
@@ -75,10 +77,36 @@ void printMatrix(nMat mat)
 	}
 }
 
-
-int main()
+// searches matrix for target. If found, returns
+// index of target in matrix, else returns {-1, -1}.
+// Note that matrix is indexed with (0,0) in top left,
+// as (row #, column #)
+vector<int> searchMatrix(nMat & mat, int target)
 {
-	nMat mat = testMatrix(10);
+	int n = mat.size();
+	for(int i = 0; i < n; ++i)
+	{	
+		if(mat[i][n-1] == target)
+			return {i, n-1};
+		if(mat[i][n-1] > target) // walk back through current row
+		{
+			for(int j = n-2; j >= 0; --j)
+			{
+				if(mat[i][j] == target)
+					return {i, j};
+			}
+			
+		}
+	}
+	//if not found
+	return {-1, -1};
+}
+
+
+int main(int argc, char *argv[])
+{
+	int n = std::strtol(argv[1], &argv[1], 10);
+	nMat mat = testMatrix(n);
   
     cout << "Original Matrix:\n"; 
     printMatrix(mat); 
@@ -87,6 +115,14 @@ int main()
   
     cout << "\nMatrix After Sorting:\n"; 
     printMatrix(mat); 
+
+    int target;
+    cout << "\ninput search target:\n";
+    cin >> target;
+
+    vector<int> result = searchMatrix(mat, target);
+    cout << result[0] << ", " << result[1] << endl;
+
   
 	return 0;
 }
