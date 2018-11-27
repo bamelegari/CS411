@@ -1,6 +1,6 @@
 /* build.hpp
 Bryce Melegari, UAF CS 411 HW 5
-Last modified: 
+Last modified: 11/26/2018
 implement a solution to the same problem as HW 2, this time using
 dynamic programming.
 
