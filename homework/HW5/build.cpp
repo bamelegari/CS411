@@ -14,7 +14,7 @@ int builder::recursiveBuild(int currentW, int currentE)
 
 	for(Bridge bridge : bridges)
 	{
-		// checks if bridge is legal with the current one.
+		// checks if bridge is legal with the previous ones and within our current sub-problem.
 		if(bridge[0] < currentW && bridge[1] < currentE)
 		{
 			// recurse with new bridge now considered, stepping backward.
@@ -35,5 +35,6 @@ int build(int w, int e, const vector<Bridge> & bridges)
 {
 	builder b(w, e, bridges);
 
+	// start recursive function with all cities, consider last bridge first.
 	return b.recursiveBuild(w, e);
 }

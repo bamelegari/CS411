@@ -21,6 +21,7 @@ struct builder
 {
 	builder(int w, int e, const vector<Bridge> & bridges):
 		w(w), e(e), bridges(bridges), solutionMatrix(vector<vector<int>>(w+1, vector<int>(e+1, -1))) {}
+		// memoization matrix is size w+1 x e+1 becase there is a bridge 0 to account for.
 
 	const vector<Bridge> & bridges;
 
