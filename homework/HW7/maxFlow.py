@@ -23,8 +23,10 @@
 
 import networkx as nx
 import matplotlib.pyplot as plt
-from Queue import Queue
+from queue import Queue
 import os
+
+
 
 # returns a list of tuples, the first element of which is the test graph, and the second element
 # of which is a list of coordinates for drawing the nodes of the graph. The graphs chosen here are all
