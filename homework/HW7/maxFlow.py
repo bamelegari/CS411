@@ -25,9 +25,9 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import sys
 if sys.version_info[0] < 3:
-	from queue import Queue
-else:
 	from Queue import Queue
+else:
+	from queue import Queue
 import os
 
 
