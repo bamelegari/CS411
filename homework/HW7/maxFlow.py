@@ -23,7 +23,11 @@
 
 import networkx as nx
 import matplotlib.pyplot as plt
-from queue import Queue
+import sys
+if sys.version_info[0] < 3:
+	from queue import Queue
+else:
+	from Queue import Queue
 import os
 
 
